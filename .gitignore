@@ -1,0 +1,6 @@
+/mda-admin/target/
+.idea/
+MesDeviceAnalyze.iml
+mda-admin/mda-admin.iml
+mda-common/target/generated-sources/
+/mda-common/target/

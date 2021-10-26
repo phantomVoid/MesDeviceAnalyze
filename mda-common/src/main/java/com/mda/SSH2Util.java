@@ -10,8 +10,11 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.jcraft.jsch.*;
+import com.mda.demo.HlhDemo;
 import com.mda.enums.ResultEnum;
 import com.mda.pojo.SnFilePojo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -20,6 +23,7 @@ import org.springframework.util.CollectionUtils;
  * @author lenovo
  */
 public class SSH2Util {
+    private static final Logger log = LoggerFactory.getLogger(SSH2Util.class);
 
     private String host;
 
@@ -136,7 +140,7 @@ public class SSH2Util {
             }
         }
         c.put(file, remoteFile);
-        System.out.println(localFile + " 上传成功");
+        log.info(localFile + " 上传成功");
         channelSftp.disconnect();
     }
 
@@ -159,7 +163,7 @@ public class SSH2Util {
         String file = null;
 
         if (CollectionUtils.isEmpty(localFiles) || localFiles.size() == 0) {
-            System.out.println("该目录下没有可操作的文件");
+            log.info("该目录下没有可操作的文件");
             return;
         } else {
             for (SnFilePojo localFile : localFiles) {
@@ -174,7 +178,7 @@ public class SSH2Util {
                     }
                     c.put(file, remoteFile);
                     localFile.setMoveFlag(ResultEnum.OK.getKey());
-                    System.out.println(JSON.toJSONString(localFile) + " 上传成功");
+                    log.info(JSON.toJSONString(localFile) + " 上传成功");
                 } catch (SftpException e) {
                     localFile.setMoveFlag(ResultEnum.NG.getKey());
                 }
@@ -188,9 +192,9 @@ public class SSH2Util {
         File filePath = new File(path);
         if (filePath.exists()) {
             move(fileNameList);
-            System.out.println("success");
+            log.info("success");
         } else {
-            System.out.println("error");
+            log.info("error");
         }
     }
 
@@ -212,12 +216,12 @@ public class SSH2Util {
 
             try {
                 if (startFile.renameTo(endFile)) {
-                    System.out.println("文件移动成功！目标路径：{" + endFile.getAbsolutePath() + "}");
+                    log.info("文件移动成功！目标路径：{" + endFile.getAbsolutePath() + "}");
                 } else {
-                    System.out.println("文件移动失败！起始路径：{" + startFile.getAbsolutePath() + "}");
+                    log.info("文件移动失败！起始路径：{" + startFile.getAbsolutePath() + "}");
                 }
             } catch (Exception e) {
-                System.out.println("文件移动出现异常！起始路径：{" + startFile.getAbsolutePath() + "}");
+                log.info("文件移动出现异常！起始路径：{" + startFile.getAbsolutePath() + "}");
             }
         }
     }
@@ -293,7 +297,7 @@ public class SSH2Util {
         errReader.close();
         channel.disconnect();
         session.disconnect();
-        System.out.println(sb.toString());
+        log.info(sb.toString());
         return sb.toString();
     }
 }

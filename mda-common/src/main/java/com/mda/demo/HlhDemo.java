@@ -5,9 +5,10 @@ import com.mda.SSH2Util;
 import com.mda.enums.FileTypeEnum;
 import com.mda.enums.ResultEnum;
 import com.mda.pojo.SnFilePojo;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,12 +20,17 @@ public class HlhDemo {
     public static final String fileType = FileTypeEnum.HLH.getKey();
 
     public static final String path0 = MdaConstant.REMOTE_HLH_PATH;
-    public static final String path = MdaConstant.LOCAL_HLH_PATH + "\\20211020";
+    public static String path = MdaConstant.LOCAL_HLH_PATH;
 
-    private final static Logger log = Logger.getLogger(HlhDemo.class);
+    private static final Logger log = LoggerFactory.getLogger(HlhDemo.class);
 
     public static void main(String[] args) throws Exception {
-        log.info("this is HlhDemo start");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
+
+        Date date1 = new Date();
+        path = path + "\\" + sdf.format(new Date());
+
+        log.info("开始读取"+path+"路径下的HLH(回流炉)文件信息...");
         /**
          * 获取其file对象
          */
@@ -35,13 +41,16 @@ public class HlhDemo {
          */
         File[] fs = file.listFiles();
 
+        List<SnFilePojo> snFilePojoList = new ArrayList<>();
+
+        if(fs == null){
+            log.info("该路径下"+path+",文件不存在");
+            return;
+        }
+
         /**
          * 遍历File[]数组
          */
-        assert fs != null;
-
-        Date date1 = new Date();
-        List<SnFilePojo> snFilePojoList = new ArrayList<>();
         for (File f : fs) {
             /**
              * 获取文件和目录名
