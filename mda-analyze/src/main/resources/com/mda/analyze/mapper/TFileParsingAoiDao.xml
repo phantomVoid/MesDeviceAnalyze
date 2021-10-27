@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mda.analyze.dao.TFileParsingAoiDao">
+  <resultMap id="BaseResultMap" type="com.mda.analyze.model.TFileParsingAoi">
+    <id column="serial_no" jdbcType="VARCHAR" property="serialNo" />
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    <result column="data_auth" jdbcType="VARCHAR" property="dataAuth" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+    <result column="edit_user" jdbcType="VARCHAR" property="editUser" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="module_count" jdbcType="VARCHAR" property="moduleCount" />
+    <result column="is_good" jdbcType="VARCHAR" property="isGood" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    serial_no, id, dept_id, data_auth, create_time, create_user, edit_time, edit_user, 
+    model, module_count, is_good, start_time, end_time
+  </sql>
+  <select id="selectByExample" parameterType="com.mda.analyze.model.TFileParsingAoiExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from "t_file_parsing_aoi"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "t_file_parsing_aoi"
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "t_file_parsing_aoi"
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mda.analyze.model.TFileParsingAoiExample">
+    delete from "t_file_parsing_aoi"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mda.analyze.model.TFileParsingAoi">
+    insert into "t_file_parsing_aoi" (serial_no, id, dept_id, 
+      data_auth, create_time, create_user, 
+      edit_time, edit_user, model, 
+      module_count, is_good, start_time, 
+      end_time)
+    values (#{serialNo,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, 
+      #{dataAuth,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{editTime,jdbcType=TIMESTAMP}, #{editUser,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{moduleCount,jdbcType=VARCHAR}, #{isGood,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mda.analyze.model.TFileParsingAoi">
+    insert into "t_file_parsing_aoi"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serialNo != null">
+        serial_no,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="dataAuth != null">
+        data_auth,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="editTime != null">
+        edit_time,
+      </if>
+      <if test="editUser != null">
+        edit_user,
+      </if>
+      <if test="model != null">
+        model,
+      </if>
+      <if test="moduleCount != null">
+        module_count,
+      </if>
+      <if test="isGood != null">
+        is_good,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataAuth != null">
+        #{dataAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="editTime != null">
+        #{editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editUser != null">
+        #{editUser,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCount != null">
+        #{moduleCount,jdbcType=VARCHAR},
+      </if>
+      <if test="isGood != null">
+        #{isGood,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mda.analyze.model.TFileParsingAoiExample" resultType="java.lang.Long">
+    select count(*) from "t_file_parsing_aoi"
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update "t_file_parsing_aoi"
+    <set>
+      <if test="record.serialNo != null">
+        serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptId != null">
+        dept_id = #{record.deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataAuth != null">
+        data_auth = #{record.dataAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.editTime != null">
+        edit_time = #{record.editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editUser != null">
+        edit_user = #{record.editUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.model != null">
+        model = #{record.model,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleCount != null">
+        module_count = #{record.moduleCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isGood != null">
+        is_good = #{record.isGood,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update "t_file_parsing_aoi"
+    set serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=VARCHAR},
+      dept_id = #{record.deptId,jdbcType=VARCHAR},
+      data_auth = #{record.dataAuth,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      edit_time = #{record.editTime,jdbcType=TIMESTAMP},
+      edit_user = #{record.editUser,jdbcType=VARCHAR},
+      model = #{record.model,jdbcType=VARCHAR},
+      module_count = #{record.moduleCount,jdbcType=VARCHAR},
+      is_good = #{record.isGood,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=VARCHAR},
+      end_time = #{record.endTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mda.analyze.model.TFileParsingAoi">
+    update "t_file_parsing_aoi"
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataAuth != null">
+        data_auth = #{dataAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="editTime != null">
+        edit_time = #{editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editUser != null">
+        edit_user = #{editUser,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCount != null">
+        module_count = #{moduleCount,jdbcType=VARCHAR},
+      </if>
+      <if test="isGood != null">
+        is_good = #{isGood,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mda.analyze.model.TFileParsingAoi">
+    update "t_file_parsing_aoi"
+    set id = #{id,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      data_auth = #{dataAuth,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      edit_time = #{editTime,jdbcType=TIMESTAMP},
+      edit_user = #{editUser,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      module_count = #{moduleCount,jdbcType=VARCHAR},
+      is_good = #{isGood,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR}
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </update>
+</mapper>
