@@ -30,7 +30,7 @@ public class HlhDemo {
         Date date1 = new Date();
         path = path + "\\" + sdf.format(new Date());
 
-        log.info("开始读取"+path+"路径下的HLH(回流炉)文件信息...");
+        log.info("开始读取"+path+"路径下的HLH(回流焊)文件信息...");
         /**
          * 获取其file对象
          */

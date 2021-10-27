@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mda-common</artifactId>
+
     <description>
         common通用工具
     </description>

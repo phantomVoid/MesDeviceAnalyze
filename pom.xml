@@ -20,8 +20,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
 
-
-        <mda.version>0.0.1</mda.version>
+        <mda.version>1.0-SNAPSHOT</mda.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -46,6 +45,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.mda</groupId>
+                <artifactId>mda-admin</artifactId>
+                <version>${mda.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.mda</groupId>
+                <artifactId>mda-common</artifactId>
+                <version>${mda.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
@@ -192,6 +203,13 @@
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId>
                 <version>0.1.44-1</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.2.5</version>
             </dependency>
 
         </dependencies>

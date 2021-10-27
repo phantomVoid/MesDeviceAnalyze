@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-public class demo {
+public class PropertyDemo {
 
-    public static final Logger log = LoggerFactory.getLogger(demo.class);
+    public static final Logger log = LoggerFactory.getLogger(PropertyDemo.class);
 
     public static void main(String[] args) throws IOException {
         Properties prop = new Properties();

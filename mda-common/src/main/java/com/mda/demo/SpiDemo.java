@@ -5,8 +5,11 @@ import com.mda.SSH2Util;
 import com.mda.enums.FileTypeEnum;
 import com.mda.enums.ResultEnum;
 import com.mda.pojo.SnFilePojo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,10 +20,18 @@ public class SpiDemo {
     public static final String rootPath = MdaConstant.ROOT_PATH;
     public static final String fileType = FileTypeEnum.SPI.getKey();
 
+    public static final String path0 = MdaConstant.REMOTE_SPI_PATH;
+    public static String path = MdaConstant.LOCAL_SPI_PATH;
+
+    private static final Logger log = LoggerFactory.getLogger(SpiDemo.class);
+
     public static void main(String[] args) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 
-        String path = MdaConstant.LOCAL_SPI_PATH + "\\20211020";
+        Date date1 = new Date();
+        path = path + "\\" + sdf.format(new Date());
 
+        log.info("开始读取"+path+"路径下的SPI文件信息...");
         /**
          * 获取其file对象
          */
@@ -31,24 +42,27 @@ public class SpiDemo {
          */
         File[] fs = file.listFiles();
 
+        List<SnFilePojo> snFilePojoList = new ArrayList<>();
+
+        if(fs == null){
+            log.info("该路径下"+path+",文件不存在");
+            return;
+        }
+
         /**
          * 遍历File[]数组
          */
-        assert fs != null;
-
-        Date date1 = new Date();
-        List<SnFilePojo> snFilePojoList = new ArrayList<>();
         for (File f : fs) {
             /**
              * 获取文件和目录名
              */
             String fileName = f.getName();
-            if (!f.isDirectory() & fileName.endsWith("txt")) {
+            if (!f.isDirectory() & fileName.endsWith("csv")) {
 
                 String[] split = fileName.split("_");
-                String sn = split[0];
-                String result = split[1];
-                String timestamp = split[2].replace(".txt", "");
+                String sn = split[6];
+                String result = "OK";
+                String timestamp = split[0] + split[1] + split[2] + split[3] + split[4] + split[5];
 
                 SnFilePojo snFilePojo = new SnFilePojo();
                 snFilePojo.setSn(sn);
@@ -71,13 +85,13 @@ public class SpiDemo {
 
         Date date2 = new Date();
         uploadFileList(path, snFilePojoList);
-        System.out.println(getDiff(date1,date2));
+        log.info(String.valueOf(getDiff(date1, date2)));
     }
 
     public static void uploadFile(String path, String fileName) throws Exception {
         SSH2Util ssh = new SSH2Util(MdaConstant.hostName, MdaConstant.userName, MdaConstant.passWord, MdaConstant.port);
         try {
-            ssh.putFile(path, fileName, MdaConstant.REMOTE_SPI_PATH);
+            ssh.putFile(path, fileName, path0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,14 +101,14 @@ public class SpiDemo {
     public static void uploadFileList(String path, List<SnFilePojo> fileNameList) throws Exception {
         SSH2Util ssh = new SSH2Util(MdaConstant.hostName, MdaConstant.userName, MdaConstant.passWord, MdaConstant.port);
         try {
-            ssh.putFileList(path, fileNameList, MdaConstant.REMOTE_SPI_PATH);
+            ssh.putFileList(path, fileNameList, path0);
         } catch (Exception e) {
             e.printStackTrace();
         }
         ssh.close();
     }
 
-    public static long getDiff(Date date1,Date date2){
+    public static long getDiff(Date date1, Date date2) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date1);
         long time1 = cal.getTimeInMillis();

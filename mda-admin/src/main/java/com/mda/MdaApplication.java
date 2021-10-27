@@ -25,7 +25,6 @@ import java.util.Set;
  * @email: phantomsaber@foxmail.com
  **/
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-//@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class MdaApplication {
     private static final Logger log = LoggerFactory.getLogger(MdaApplication.class);
 
@@ -33,45 +32,39 @@ public class MdaApplication {
         SpringApplication.run(MdaApplication.class, args);
         StringBuilder info = new StringBuilder();
         info.append("\n(♥◠‿◠)ﾉﾞ  MES设备文件解析程序(MDA)启动成功   ლ(´ڡ`ლ)ﾞ  \n");
-        info.append("\t███╗   ███╗██████╗  █████╗     ██╗███████╗    ██████╗ ██╗   ██╗███╗   ██╗███╗   ██╗██╗███╗   ██╗ ██████╗ \n");
-        info.append("\t████╗ ████║██╔══██╗██╔══██╗    ██║██╔════╝    ██╔══██╗██║   ██║████╗  ██║████╗  ██║██║████╗  ██║██╔════╝ \n");
-        info.append("\t██╔████╔██║██║  ██║███████║    ██║███████╗    ██████╔╝██║   ██║██╔██╗ ██║██╔██╗ ██║██║██╔██╗ ██║██║  ███╗\n");
-        info.append("\t██║╚██╔╝██║██║  ██║██╔══██║    ██║╚════██║    ██╔══██╗██║   ██║██║╚██╗██║██║╚██╗██║██║██║╚██╗██║██║   ██║\n");
-        info.append("\t██║ ╚═╝ ██║██████╔╝██║  ██║    ██║███████║    ██║  ██║╚██████╔╝██║ ╚████║██║ ╚████║██║██║ ╚████║╚██████╔╝\n");
-        info.append("\t╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝    ╚═╝╚══════╝    ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ \n");
+        info.append("███╗   ███╗██████╗  █████╗     ██╗███████╗    ██████╗ ██╗   ██╗███╗   ██╗███╗   ██╗██╗███╗   ██╗ ██████╗ \n");
+        info.append("████╗ ████║██╔══██╗██╔══██╗    ██║██╔════╝    ██╔══██╗██║   ██║████╗  ██║████╗  ██║██║████╗  ██║██╔════╝ \n");
+        info.append("██╔████╔██║██║  ██║███████║    ██║███████╗    ██████╔╝██║   ██║██╔██╗ ██║██╔██╗ ██║██║██╔██╗ ██║██║  ███╗\n");
+        info.append("██║╚██╔╝██║██║  ██║██╔══██║    ██║╚════██║    ██╔══██╗██║   ██║██║╚██╗██║██║╚██╗██║██║██║╚██╗██║██║   ██║\n");
+        info.append("██║ ╚═╝ ██║██████╔╝██║  ██║    ██║███████║    ██║  ██║╚██████╔╝██║ ╚████║██║ ╚████║██║██║ ╚████║╚██████╔╝\n");
+        info.append("╚═╝     ╚═╝╚═════╝ ╚═╝  ╚═╝    ╚═╝╚══════╝    ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ \n");
 //        System.out.println(info.toString());
 
         log.info(info.toString());
-//        ConfigPojo configPojo = readProperties();
-//        log.info(JSON.toJSONString(configPojo));
+        ConfigPojo configPojo = readProperties();
+        log.info(JSON.toJSONString(configPojo));
+        log.info(System.getProperty("CONFIG_TYPE"));
     }
 
-    public static ConfigPojo readProperties(){
-        Properties prop =new Properties();
-
-        InputStream inputStream =null;
+    public static ConfigPojo readProperties() {
+        log.info("读取配置文件信息...");
+        Properties prop = new Properties();
 
         try {
             prop.load(new FileInputStream("res/mda.properties"));
-
-            /* 注释：也可以直接在src/main/resources目录下新建配置文件，但是new FileInputStream("res/myCanal.properties")需要改为new FileInputStream("src/main/resources/myCanal.properties") */
-
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         Set<Map.Entry<Object, Object>> props = prop.entrySet();
         for (Map.Entry<Object, Object> entry : props) {
             System.out.println(entry.getKey() + "=" + entry.getValue());
-            System.setProperty(entry.getKey().toString(),entry.getValue().toString());
+            System.setProperty(entry.getKey().toString(), entry.getValue().toString());
         }
 
-        System.out.println(System.getProperty("CONFIG_TYPE"));
         String jsonString = JSON.toJSONString(prop);
-
         ConfigPojo configPojo = (ConfigPojo) ConfigUtil.doParseMain(jsonString, ConfigPojo.class);
         return configPojo;
     }
